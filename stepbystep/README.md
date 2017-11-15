@@ -810,3 +810,62 @@ const styles = StyleSheet.create({
 cd android && ./gradlew clean
 cd ../ && react-native run-android
 ```
+
+### How to release into Google PlayStore
+
+Follow this official link for more info
+
+https://facebook.github.io/react-native/docs/signed-apk-android.html
+
+- Generating a signing key
+
+```ssh
+keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+```
+
+- Place the my-release-key.keystore file under the android/app directory in your project folder
+
+- Edit the file ~/.gradle/gradle.properties and add the following 
+
+```properties
+MYAPP_RELEASE_STORE_FILE=my-release-key.keystore
+MYAPP_RELEASE_KEY_ALIAS=my-key-alias
+MYAPP_RELEASE_STORE_PASSWORD=*****
+MYAPP_RELEASE_KEY_PASSWORD=****
+```
+
+replace ***** with your password
+
+- Adding signing config to your app's gradle config under `android/app/build.gradle`
+
+```gradle
+signingConfigs {
+    release {
+        if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+        }
+    }
+}
+buildTypes {
+    release {
+        minifyEnabled enableProguardInReleaseBuilds
+        proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        signingConfig signingConfigs.release
+    }
+}
+```
+
+- Generating the release APK
+
+```ssh
+cd android && ./gradlew assembleRelease
+```
+
+- Testing the release build of your app 
+
+```ssh
+react-native run-android --variant=release
+```
