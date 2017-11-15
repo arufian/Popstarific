@@ -124,10 +124,6 @@ export default class App extends Component {
     })
   }
 
-  stopSong() {
-    this.song.stop()
-  }
-
   playNext() {
     let songIndex = this.playedIndex + 1
     if( this.playedIndex === -1 
