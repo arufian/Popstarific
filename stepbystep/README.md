@@ -7,8 +7,10 @@ channel: #rn2ndclass
 
 ### Initialization
 
-$ react-native init <project_name>
-$ react-native run-android
+```ssh
+react-native init <project_name>
+react-native run-android
+```
 
 ### Directory & App Structure, Plus Preparation
 
@@ -19,7 +21,7 @@ https://github.com/infinitered/reactotron/blob/master/docs/installing.md
 
 - create Reactotron.config.js under root dir with this codes inside :
 
-```
+```javascript
 import Reactotron from 'reactotron-react-native'
 
 Reactotron
@@ -48,7 +50,7 @@ console.log  = (...args) => {
 
 - change index.js or index.android.js file under root with these codes
 
-```
+```javascript
 import { AppRegistry } from 'react-native'
 import App from './App'
 import './ReactotronConfig'
@@ -73,7 +75,6 @@ AppRegistry.registerComponent('YOUR_PROJECT_NAME', () => App)
 - run your Reactotron app
 
 - change codes in App/index.js
-
 
 ```javascript
 import React, { Component } from 'react'
@@ -108,8 +109,10 @@ export default class App extends Component {
 
 - recompile App
 
-`cd android && ./gradlew clean`
-`cd ../ && react-native run-android`
+```ssh
+cd android && ./gradlew clean
+cd ../ && react-native run-android
+```
 
 - check console log results on Reactotron
 
@@ -444,8 +447,10 @@ const styles = StyleSheet.create({
 
 - recompile App
 
-`cd android && ./gradlew clean`
-`cd ../ && react-native run-android`
+```ssh
+cd android && ./gradlew clean
+cd ../ && react-native run-android
+```
 
 ### Put the Control
 
@@ -801,5 +806,7 @@ const styles = StyleSheet.create({
 
 - recompile App
 
-`cd android && ./gradlew clean`
-`cd ../ && react-native run-android`
+```ssh
+cd android && ./gradlew clean
+cd ../ && react-native run-android
+```
