@@ -19,7 +19,15 @@ react-native run-android
 
 https://github.com/infinitered/reactotron/blob/master/docs/installing.md
 
-- create Reactotron.config.js under root dir with this codes inside :
+- install reactotron-react-native on project
+
+`npm i --save-dev reactotron-react-native`
+
+- connecting Reactotron to device
+
+`npm i --save-dev reactotron-react-native`
+
+- create ReactotronConfig.js under root dir with this codes inside :
 
 ```javascript
 import Reactotron from 'reactotron-react-native'
