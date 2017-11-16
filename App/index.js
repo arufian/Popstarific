@@ -13,8 +13,10 @@ import {
 } from 'react-native'
 import MusicFiles from 'react-native-get-music-files'
 import Sound from 'react-native-sound'
+import {ShareDialog} from 'react-native-fbsdk'
 import Song from './Song'
 import Control from './Control'
+import Login from './Login'
 
 export default class App extends Component {
 
@@ -22,7 +24,8 @@ export default class App extends Component {
     super()
     this.state = {
       songList: null,
-      isPlaying: false
+      isPlaying: false,
+      isLogin: false
     }
     this.song = null
     this.playedIndex = -1
@@ -143,7 +146,48 @@ export default class App extends Component {
     this.playSong(this.state.songList[songIndex].path, songIndex)
   }
 
+  loginSucceed() {
+    this.setState({
+      isLogin: true
+    })
+  }
+
+  onShare(item) {
+
+    console.log(item)
+
+    let shareLinkContent = {
+      contentType: 'link',
+      contentUrl: "http://fbmasterclass4devs.id/",
+      contentDescription: 'I am now playing ' + item.title + ' by ' + item.author,
+    }
+
+    ShareDialog.canShow(shareLinkContent).then(
+      function(canShow) {
+        if (canShow) {
+          return ShareDialog.show(shareLinkContent);
+        }
+      }
+    ).then(
+      function(result) {
+        if (result.isCancelled) {
+          alert('Share cancelled');
+        } else {
+          alert('Share success with postId: '
+            + result.postId);
+        }
+      },
+      function(error) {
+        alert('Share fail with error: ' + error);
+      }
+    );
+  }
+
   render() {
+
+    if(!this.state.isLogin) {
+      return <Login loginSucceed={this.loginSucceed.bind(this)} />
+    }
 
     return (
       <View style={{flex: 4}}>
@@ -152,7 +196,7 @@ export default class App extends Component {
           data={this.state.songList}
           renderItem={({item}) => <Song item={item} playSong={(path) => {
             this.playSong(path, item.key)
-          }} ></Song>}
+          }} share={this.onShare.bind(this)}></Song>}
           ItemSeparatorComponent={this.renderSeparator}
         />
         <Control togglePlay={this.togglePlay.bind(this)} 

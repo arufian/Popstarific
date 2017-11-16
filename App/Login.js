@@ -9,33 +9,26 @@ import  { LoginButton, AccessToken } from 'react-native-fbsdk'
 
 export default class Login extends Component {
 
-  loginSucceed() {
-    this.props.loginSucceed()
+  loginHandler(error, result) {
+    if (error) {
+      alert("login has error: " + result.error);
+    } else if (result.isCancelled) {
+      alert("login is cancelled.");
+    } else {
+      this.props.loginSucceed()
+      // alert('ok')
+    }
   }
 
-	render() {
-		return (
+  render() {
+    return (
       <View style={{ flex:1, justifyContent: 'center', alignItems:'center' }}>
         <LoginButton
           publishPermissions={["publish_actions"]}
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                alert("login has error: " + result.error);
-              } else if (result.isCancelled) {
-                alert("login is cancelled.");
-              } else {
-                AccessToken.getCurrentAccessToken().then(
-                  (data) => {
-                    alert(data.accessToken.toString())
-                  }
-                )
-              }
-            }
-          }
+          onLoginFinished={this.loginHandler.bind(this)}
           onLogoutFinished={() => alert("logout.")}/>
       </View>
     )
-	}
+  }
 
 }

@@ -9,6 +9,7 @@
   "dependencies": {
     "react": "16.0.0-beta.5",
     "react-native": "0.49.3",
+    "react-native-fbsdk": "^0.6.3",
     "react-native-get-music-files": "^1.0.6",
     "react-native-sound": "^0.10.4",
     "react-native-vector-icons": "^4.4.2",
