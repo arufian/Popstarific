@@ -25,7 +25,7 @@ https://github.com/infinitered/reactotron/blob/master/docs/installing.md
 
 - connecting Reactotron to device
 
-`npm i --save-dev reactotron-react-native`
+`adb reverse tcp:9090 tcp:9090`
 
 - create ReactotronConfig.js under root dir with this codes inside :
 
