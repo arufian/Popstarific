@@ -23,12 +23,12 @@ export default class App extends Component {
   constructor() {
     super()
     this.state = {
+      title : 'Developer Masterclass', //change title
       songList: null,
       isPlaying: false
     }
     this.song = null
     this.playedIndex = -1
-    this.title = 'Developer Masterclass' //change title
   }
 
   componentDidMount() {
@@ -69,9 +69,9 @@ export default class App extends Component {
       })
     } else {
       this.song.play()
-      this.setState({
-        isPlaying: true
-      })
+        this.setState({
+          isPlaying: true
+        })
     }
   }
 
@@ -99,9 +99,12 @@ export default class App extends Component {
     self.song.release()
   }
 
+  changeTitle(title) {
+    this.setState({title: title})
+  }
+
   playSong(path, index) {
-    //console.log(index, path)
-    console.log('playSong index -> ' + index)
+    console.log(index, path)
     let self = this
     let songList = [...this.state.songList]
     if(this.song) {
@@ -130,7 +133,6 @@ export default class App extends Component {
 
   playNext() {
     let songIndex = this.playedIndex + 1
-    console.log('playNext index -> ' + songIndex)
     if( this.playedIndex === -1 
       || this.playedIndex + 1 === this.state.songList.length ) {
       songIndex = 0
@@ -141,7 +143,6 @@ export default class App extends Component {
   playPrevious() {
     this.song.stop()
     let songIndex = this.playedIndex - 1
-    console.log('playPrevious index -> ' + songIndex)
     if (songIndex === -1) {
       songIndex = this.state.songList.length - 1
     } 
@@ -153,17 +154,17 @@ export default class App extends Component {
     return (
       <View style={{flex: 4}}>
         <StatusBar backgroundColor='#2c446e' barStyle='light-content' />
-        <Header title={this.title}/>
-        
+        <Header title={this.state.title}/>
+
         <FlatList
           style={{flex: 3}}
           data={this.state.songList}
-          renderItem={({item}) => <Song item={item} playSong={(path) => {
+          renderItem={({item}) => <Song changeTitle={this.changeTitle.bind(this)} item={item} playSong={(path) => {
             this.playSong(path, item.key)
           }} ></Song>}
           ItemSeparatorComponent={this.renderSeparator}
         />
-        <Control togglePlay={this.togglePlay.bind(this)} 
+        <Control playedIndex={this.playedIndex} togglePlay={this.togglePlay.bind(this)} 
           isPlaying={this.state.isPlaying} playNext={this.playNext.bind(this)} 
           playPrevious={this.playPrevious.bind(this)} />
       </View>
