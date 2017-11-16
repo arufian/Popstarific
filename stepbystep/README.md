@@ -620,7 +620,9 @@ export default class App extends Component {
         <FlatList
           style={{flex: 3}}
           data={this.state.songList}
-          renderItem={({item}) => <Song item={item} ></Song>}
+          renderItem={({item}) => <Song item={item} playSong={(path) => {
+            this.playSong(path, item.key)
+          }} ></Song>}
           ItemSeparatorComponent={this.renderSeparator}
         />
         <Control togglePlay={this.togglePlay.bind(this)} 
