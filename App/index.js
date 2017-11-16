@@ -9,12 +9,14 @@ import {
   StyleSheet,
   Text,
   View,
-  FlatList
+  FlatList,
+  StatusBar
 } from 'react-native'
 import MusicFiles from 'react-native-get-music-files'
 import Sound from 'react-native-sound'
 import Song from './Song'
 import Control from './Control'
+import Header from './Header'
 
 export default class App extends Component {
 
@@ -26,6 +28,7 @@ export default class App extends Component {
     }
     this.song = null
     this.playedIndex = -1
+    this.title = 'Developer Masterclass' //change title
   }
 
   componentDidMount() {
@@ -97,7 +100,8 @@ export default class App extends Component {
   }
 
   playSong(path, index) {
-    console.log(index, path)
+    //console.log(index, path)
+    console.log('playSong index -> ' + index)
     let self = this
     let songList = [...this.state.songList]
     if(this.song) {
@@ -126,6 +130,7 @@ export default class App extends Component {
 
   playNext() {
     let songIndex = this.playedIndex + 1
+    console.log('playNext index -> ' + songIndex)
     if( this.playedIndex === -1 
       || this.playedIndex + 1 === this.state.songList.length ) {
       songIndex = 0
@@ -136,10 +141,10 @@ export default class App extends Component {
   playPrevious() {
     this.song.stop()
     let songIndex = this.playedIndex - 1
-    if( this.playedIndex === -1 
-      || this.playedIndex + 1 === this.state.songList.length ) {
-      songIndex = 0
-    }
+    console.log('playPrevious index -> ' + songIndex)
+    if (songIndex === -1) {
+      songIndex = this.state.songList.length - 1
+    } 
     this.playSong(this.state.songList[songIndex].path, songIndex)
   }
 
@@ -147,6 +152,9 @@ export default class App extends Component {
 
     return (
       <View style={{flex: 4}}>
+        <StatusBar backgroundColor='#2c446e' barStyle='light-content' />
+        <Header title={this.title}/>
+        
         <FlatList
           style={{flex: 3}}
           data={this.state.songList}
